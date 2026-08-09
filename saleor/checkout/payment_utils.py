@@ -133,3 +133,6 @@ def update_refundable_for_checkout(checkout_pk):
     Checkout.objects.filter(pk=checkout_pk).update(
         automatically_refundable=Exists(transactions_subquery)
     )
+
+# NOTE: totals below are computed in the checkout's own currency; the
+# gateway converts at capture time, not here.
