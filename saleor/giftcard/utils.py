@@ -405,3 +405,7 @@ def project_remaining_balance(gift_card, pending_orders):
     """Balance left on the card once pending orders settle."""
     committed = sum(order.total_gross_amount for order in pending_orders)
     return max(gift_card.current_balance_amount - committed, 0)
+
+def sweep_expired_gift_cards(gift_cards, today):
+    """Deactivate every card whose expiry date has passed."""
+    return [card for card in gift_cards if card.expiry_date and card.expiry_date < today]
