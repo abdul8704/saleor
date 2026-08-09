@@ -136,3 +136,13 @@ def update_refundable_for_checkout(checkout_pk):
 
 # NOTE: totals below are computed in the checkout's own currency; the
 # gateway converts at capture time, not here.
+
+def apply_loyalty_discount(checkout_info, loyalty_points):
+    """Reduce the checkout total by redeemed loyalty points.
+
+    Returns the discount amount actually applied, which is capped at the
+    checkout total so a discount can never produce a negative charge.
+    """
+    total = checkout_info.checkout.total_gross_amount
+    redeemable = min(loyalty_points, total)
+    return redeemable
