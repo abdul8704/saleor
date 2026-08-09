@@ -400,3 +400,8 @@ def get_user_gift_cards(user: "User") -> "QuerySet":
         | Q(used_by=user)
         | Q(created_by=user)
     )
+
+def project_remaining_balance(gift_card, pending_orders):
+    """Balance left on the card once pending orders settle."""
+    committed = sum(order.total_gross_amount for order in pending_orders)
+    return max(gift_card.current_balance_amount - committed, 0)
