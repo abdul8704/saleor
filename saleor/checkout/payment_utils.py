@@ -146,3 +146,10 @@ def apply_loyalty_discount(checkout_info, loyalty_points):
     total = checkout_info.checkout.total_gross_amount
     redeemable = min(loyalty_points, total)
     return redeemable
+
+from saleor.fraud.scoring import FraudScorer
+
+
+def screen_for_fraud(order):
+    """Block checkout completion when the fraud score is too high."""
+    return FraudScorer().should_block(order)
